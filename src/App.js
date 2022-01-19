@@ -20,17 +20,21 @@ class App extends React.Component {
     // Open subscription between Application and Firebase App
     this.unsubscribedFromAuth = auth.onAuthStateChanged(async userAuth => {
       // this.setState({currentUser: user});
-      const userRef = await createUserProfileDocument(userAuth);
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
 
-      userRef.onSnapshot(snapshot => {
-        console.log(snapshot.data());
-        this.setState({
-          currentUser: {
-            id: snapshot.id,
-            ...snapshot.data()
-          }
+        userRef.onSnapshot(snapshot => {
+          console.log(snapshot.data());
+          this.setState({
+            currentUser: {
+              id: snapshot.id,
+              ...snapshot.data()
+            }
+          })
         })
-      })
+      } else {
+        this.setState({currentUser: userAuth})
+      }
       // console.log(user);
 
     })
