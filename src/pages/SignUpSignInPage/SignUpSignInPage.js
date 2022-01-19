@@ -1,11 +1,13 @@
 import React from 'react'
 import SignIn from '../../components/SignIn/SignIn'
+import SignUp from '../../components/SignUp/SignUp'
+import './SignUpSignInPage.scss'
 
 function SignUpSignInPage() {
     return (
-        <div>
-            <h1>SignUp Page</h1>
+        <div className='sign-in-and-sign-up'>
             <SignIn />
+            <SignUp />
         </div>
     )
 }

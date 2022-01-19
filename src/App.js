@@ -5,7 +5,7 @@ import Header from './components/Header/Header';
 import Homepage from './pages/Homepage/homepage';
 import Shoppage from './pages/ShopPage/Shoppage';
 import SignUpSignInPage from './pages/SignUpSignInPage/SignUpSignInPage';
-import {auth} from './firebaseUtility/firebaseUtility'
+import {auth, createUserProfileDocument} from './firebaseUtility/firebaseUtility'
 class App extends React.Component {
   constructor() {
     super();
@@ -18,16 +18,28 @@ class App extends React.Component {
 
   componentDidMount() {
     // Open subscription between Application and Firebase App
-    this.unsubscribedFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({currentUser: user});
+    this.unsubscribedFromAuth = auth.onAuthStateChanged(async userAuth => {
+      // this.setState({currentUser: user});
+      const userRef = await createUserProfileDocument(userAuth);
 
-      console.log(user);
+      userRef.onSnapshot(snapshot => {
+        console.log(snapshot.data());
+        this.setState({
+          currentUser: {
+            id: snapshot.id,
+            ...snapshot.data()
+          }
+        })
+      })
+      // console.log(user);
+
     })
   }
 
   componentWillUnmount() {
     // This will unsubscribe the user from the application
     this.unsubscribedFromAuth();
+
   }
 
   render() {
