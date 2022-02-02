@@ -5,6 +5,8 @@ import './header.scss';
 import {auth} from '../../firebaseUtility/firebaseUtility'
 import {connect} from 'react-redux'
 import { setCurrentUser } from '../../redux/user/user.action';
+import CartIcon from '../CartIcon/CartIcon';
+import CartDropdown from '../CartDropdown/CartDropdown';
 
 function Header({currentUser, setCurrentUser}) {
     const handleSignOut = () => {
@@ -13,6 +15,7 @@ function Header({currentUser, setCurrentUser}) {
     }
 
     return (
+        <>
         <div className='header'>
             <Link className='logo-container' to="/">
                 <Logo className="logo" />
@@ -31,8 +34,11 @@ function Header({currentUser, setCurrentUser}) {
                         SIGN IN
                     </Link>
                 }
+                <CartIcon />
             </div>
         </div>
+        <CartDropdown />
+        </>
     )
 }
 
